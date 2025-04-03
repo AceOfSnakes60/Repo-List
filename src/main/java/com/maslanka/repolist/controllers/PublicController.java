@@ -1,5 +1,7 @@
 package com.maslanka.repolist.controllers;
 
+import com.maslanka.repolist.Model.GithubRepo;
+import com.maslanka.repolist.Model.GithubUser;
 import com.maslanka.repolist.Service.RepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +19,13 @@ public class PublicController {
         this.repoService = repoService;
     }
 
-    @GetMapping()
-    public void getRepos(@PathVariable String username){
+    @GetMapping("/{username}")
+    public GithubUser getUser(@PathVariable String username){
+        return repoService.getReposByUsername(username);
+    }
 
+    @GetMapping("/{username}/repo")
+    public GithubRepo getRepos(@PathVariable String username){
+        return null;
     }
 }
