@@ -2,11 +2,8 @@ package com.maslanka.repolist.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.List;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GithubRepo {
-
+public class GithubBranch {
     public String name;
-    public GithubOwner owner;
+    public String sha;
 }

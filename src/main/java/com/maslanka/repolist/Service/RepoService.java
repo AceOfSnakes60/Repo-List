@@ -1,9 +1,13 @@
 package com.maslanka.repolist.Service;
 
 import com.maslanka.repolist.ApiClient.GithubApiClient;
+import com.maslanka.repolist.Model.GithubBranch;
+import com.maslanka.repolist.Model.GithubRepo;
 import com.maslanka.repolist.Model.GithubUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class RepoService {
@@ -13,7 +17,9 @@ public class RepoService {
     public RepoService(GithubApiClient githubApiClient){
     this.githubApiClient = githubApiClient;
     }
-    public GithubUser getReposByUsername(String username){
+    public GithubUser getUser(String username){
         return githubApiClient.fetchUser(username);
     }
+    public List<GithubRepo> getReposByUsername(String username){ return githubApiClient.fetchRepo(username);}
+    public List<GithubBranch> getBranchesByRepo(String username, String reponame){return githubApiClient.fetchBranch(username, reponame);}
 }
