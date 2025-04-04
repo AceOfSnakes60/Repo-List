@@ -3,6 +3,7 @@ package com.maslanka.repolist.controllers;
 import com.maslanka.repolist.Model.GithubBranch;
 import com.maslanka.repolist.Model.GithubRepo;
 import com.maslanka.repolist.Model.GithubUser;
+import com.maslanka.repolist.Response.RepoResponse;
 import com.maslanka.repolist.Service.RepoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,9 @@ public class PublicController {
     }
 
     @GetMapping("/{username}")
-    public GithubUser getUser(@PathVariable String username){
-        return null;
+    public List<RepoResponse> getRepoWithBranches(@PathVariable String username){
+
+        return repoService.getReposWithBranches(username);
     }
 
     @GetMapping("/{username}/repo")
