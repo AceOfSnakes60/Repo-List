@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 @Service
 public class RepoService {
@@ -25,15 +27,18 @@ public class RepoService {
     public List<GithubRepo> getReposByUsername(String username){ return githubApiClient.fetchRepo(username);}
     public List<GithubBranch> getBranchesByRepo(String username, String reponame){return githubApiClient.fetchBranch(username, reponame);}
     public List<RepoResponse> getReposWithBranches(String username){
-        List<RepoResponse> responseList = new ArrayList<>();
-        List<GithubRepo> repoList = githubApiClient.fetchRepo(username);
-        repoList.forEach((repo)->{
-            if(repo.fork){
-                return;
-            }
-            responseList.add(new RepoResponse(repo, githubApiClient.fetchBranch(username, repo.name)));
-        });
-        return responseList;
+
+                List<GithubRepo> repoList = githubApiClient.fetchRepo(username);
+                List<CompletableFuture<RepoResponse>> futures = repoList.stream()
+                        .filter(repo->!repo.fork)
+                        .map(repo->CompletableFuture.supplyAsync(()->
+                                new RepoResponse(repo, githubApiClient.fetchBranch(username, repo.name))
+                        ))
+                        .toList();
+
+        return futures.stream()
+                .map(CompletableFuture::join)
+                .collect(Collectors.toList());
 
     }
 }
