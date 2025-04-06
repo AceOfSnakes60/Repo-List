@@ -7,7 +7,34 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GithubRepo {
 
-    public String name;
-    public GithubOwner owner;
-    public boolean fork;
+    private String name;
+    private GithubOwner owner;
+    private boolean fork;
+
+    public GithubRepo(String name){
+        this.name = name;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public GithubOwner getOwner() {
+        return owner;
+    }
+
+    public void setOwner(GithubOwner owner) {
+        this.owner = owner;
+    }
+
+    public boolean isFork() {
+        return fork;
+    }
+
+    public void setFork(boolean fork) {
+        this.fork = fork;
+    }
 }
